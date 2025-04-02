@@ -1,11 +1,11 @@
-# Steered Molecular Dynamics Simulation Bis-Catechol Iron Complex
+# Minimization and Equilibration of Bis-Catechol Iron Complex
 # Using the CHARMM36 FF and CHARMM General Force Field
 
 #### Setup
 
 units           real 						# Set the style of units used for the simulation to real.
 neigh_modify    every 1 delay 0 check yes 	# build a new neighbor list every 1 step after a delay of 0 steps.
-boundary		p p p 						# Define shrink-wrapped boundaries in all directions to accommodate deformation, but prevent interactions across boundaries.
+boundary		p p p 						# Define periodic boundaries in all directions to accommodate deformation.
 
 # Set styles.
 
@@ -17,57 +17,43 @@ improper_style  harmonic 					# Compute improper interactions between quadruplet
 pair_style      lj/charmm/coul/long 8 12 	# Compute LJ and Coulombic interactions with an additional shifting or switching function that ramps the energy and/or force smoothly to zero between the specificed inner and outer cutoffs.
 pair_modify     mix arithmetic 				# As is standard for the CHARMM force field, use geometric mixing rules for epsilon and arithmetic mixing rules for sigma in LJ potential calculation.
 kspace_style    ewald 1e-4 					# standard Ewald summation for calculating long-range Coulombic or long-range 1/r^6 interactions.
-#kspace_style 	msm 1e-4 	
 special_bonds   charmm 						# Sets special bond interactions, which are those pairwise interactions to be computed between permanently bonded atoms, to 0, 0, and 0. This is the default for commonly used versions of the CHARMM force field.
 
 #### Read Data File
 
-read_restart       equilibrated.restart 	# Read in a lammps restart file.
+read_data       bis_catechol_iron_complex.data 	# Read in a lammps data file.
 
-#### Perform Steered Molecular Dynamics Simulation
+#### Perform Energy Minimization
 
-# Create an atom group to be fixed through the simulation.
-group 			fixed_atom id 10
+thermo 50 																		# Compute and print thermodynamic info (temperature, energy, and pressure) on timesteps that are a multiple of N.
+thermo_style 	custom etotal ke temp pe ebond eangle density vol fmax fnorm 	# Specify which keywords are printed on each thermodynamic step.
 
-# Create an atom group to be attached to the smd dummy atom.
-group 			moving_atom id 33
+minimize		1.0e-5 1.0e-6 100 1000 											# Perform an energy minimization of the system, by iteratively adjusting atom coordinates.
+write_restart 	minimized.restart 												# Write a binary restart file of the current state of the simulation.
+write_data 		minimized.data 													# Write a data file in text format of the current state of the simulation.
 
-# Fix the position of the fixed atom.
-fix 			fix1 fixed_atom setforce 0.0 0.0 0.0
-
-# Apply a harmonic constraint to the moving atom. Choose a point x, y, z that falls along the unit vector between atom id 10 and atom id 33.
-fix 			smd moving_atom smd cvel 20 -0.0001 tether 117.449 105.137 20.22 0.0
-
-fix 			smd_results all ave/time 1 1 100 f_smd[*] file SMD_results
-
-# Specify a thermodynamic ensemble and initial velocities.
-# Create an atom group without id 10
-group 			exclude_atoms subtract all fixed_atom
-
+#### Perform a Simple Equilibration in NPT Ensemble
 
 variable 		temperature equal 300
 variable 		pressure equal 1
 
 # Set initial velocities for all atoms except atom with fixed force.
-velocity 		exclude_atoms create ${temperature} 543 dist gaussian loop local
+velocity 		all create ${temperature} 543 dist gaussian loop local
 
 # Apply an isobaric thermodynamic ensemble.
-fix 			1 all npt temp ${temperature} ${temperature} 100.0 iso ${pressure} ${pressure} 1000
+fix 			fix_ensemble all npt temp ${temperature} ${temperature} 100.0 iso ${pressure} ${pressure} 1000
 
 # Set the timestep.
 timestep 		1.0
 
 # Output a trajectory.
 variable 		dumpfreq equal 10
-dump 			1 all dcd ${dumpfreq} smd.dcd
+dump 			equil_traj all dcd ${dumpfreq} equil.dcd
+run 10000 		
 
-# Run the simulation.
-run 			1000
+unfix  			fix_ensemble
+undump 			equil_traj
 
-# Write files to save final simulation state.
-write_data 		smd.data
-write_restart 	smd.restart
-
-
-
-
+# Output a restart and data file.
+write_restart 	equilibrated.restart
+write_data 		equilibrated.data
