@@ -1,0 +1,176 @@
+LAMMPS (3 Mar 2020)
+  using 1 OpenMP thread(s) per MPI task
+# Steered Molecular Dynamics Simulation Bis-Catechol Iron Complex
+# Using the CHARMM36 FF and CHARMM General Force Field
+
+#### Setup
+
+units           real 						# Set the style of units used for the simulation to real.
+neigh_modify    every 1 delay 0 check yes 	# build a new neighbor list every 1 step after a delay of 0 steps.
+boundary		p p p 						# Define shrink-wrapped boundaries in all directions to accommodate deformation, but prevent interactions across boundaries.
+
+# Set styles.
+
+atom_style      full 						# Sets per-atom attributes associated with an atom to molecular and charge (q).
+bond_style      harmonic 					# Compute bonded interactions using a harmonic formula.
+angle_style     charmm 						# Compute angle interactions between triplets of atoms using the charmm angle style.
+dihedral_style  charmm 						# Compute dihedral interactions between quadruplets of atoms using the charmm dihedral style.
+improper_style  harmonic 					# Compute improper interactions between quadruplets of atoms using a harmonic improper potential.
+pair_style      lj/charmm/coul/long 8 12 	# Compute LJ and Coulombic interactions with an additional shifting or switching function that ramps the energy and/or force smoothly to zero between the specificed inner and outer cutoffs.
+pair_modify     mix arithmetic 				# As is standard for the CHARMM force field, use geometric mixing rules for epsilon and arithmetic mixing rules for sigma in LJ potential calculation.
+kspace_style    ewald 1e-4 					# standard Ewald summation for calculating long-range Coulombic or long-range 1/r^6 interactions.
+#kspace_style 	msm 1e-4
+special_bonds   charmm 						# Sets special bond interactions, which are those pairwise interactions to be computed between permanently bonded atoms, to 0, 0, and 0. This is the default for commonly used versions of the CHARMM force field.
+
+#### Read Data File
+
+read_restart       equilibrated.restart 	# Read in a lammps restart file.
+  restoring atom style full from restart
+  orthogonal box = (115.689 103.246 15.4277) to (120.5 108.032 33.6913)
+  1 by 1 by 4 MPI processor grid
+  restoring pair style lj/charmm/coul/long from restart
+  restoring bond style harmonic from restart
+  restoring angle style charmm from restart
+  restoring dihedral style charmm from restart
+  restoring improper style harmonic from restart
+  47 atoms
+  46 bonds
+  78 angles
+  116 dihedrals
+  2 impropers
+  4 = max # of 1-2 neighbors
+  8 = max # of 1-3 neighbors
+  14 = max # of 1-4 neighbors
+  18 = max # of special neighbors
+  special bonds CPU = 0.000696347 secs
+  read_restart CPU = 0.0472462 secs
+
+#### Perform Steered Molecular Dynamics Simulation
+
+# Create an atom group to be fixed through the simulation.
+group 			fixed_atom id 10
+1 atoms in group fixed_atom
+
+# Create an atom group to be attached to the smd dummy atom.
+group 			moving_atom id 33
+1 atoms in group moving_atom
+
+# Fix the position of the fixed atom.
+fix 			fix1 fixed_atom setforce 0.0 0.0 0.0
+
+# Apply a harmonic constraint to the moving atom. Choose a point x, y, z that falls along the unit vector between atom id 10 and atom id 33.
+fix 			smd moving_atom smd cvel 20 -0.0001 tether 117.449 105.137 20.22 0.0
+
+fix 			smd_results all ave/time 1 1 100 f_smd[*] file SMD_results
+
+# Specify a thermodynamic ensemble and initial velocities.
+# Create an atom group without id 10
+group 			exclude_atoms subtract all fixed_atom
+46 atoms in group exclude_atoms
+
+
+variable 		temperature equal 300
+variable 		pressure equal 1
+
+# Set initial velocities for all atoms except atom with fixed force.
+velocity 		exclude_atoms create ${temperature} 543 dist gaussian loop local
+velocity 		exclude_atoms create 300 543 dist gaussian loop local
+
+# Apply an isobaric thermodynamic ensemble.
+fix 			1 all npt temp ${temperature} ${temperature} 100.0 iso ${pressure} ${pressure} 1000
+fix 			1 all npt temp 300 ${temperature} 100.0 iso ${pressure} ${pressure} 1000
+fix 			1 all npt temp 300 300 100.0 iso ${pressure} ${pressure} 1000
+fix 			1 all npt temp 300 300 100.0 iso 1 ${pressure} 1000
+fix 			1 all npt temp 300 300 100.0 iso 1 1 1000
+Resetting global fix info from restart file:
+  fix style: npt, fix ID: 1
+
+# Set the timestep.
+timestep 		1.0
+
+# Output a trajectory.
+variable 		dumpfreq equal 10
+dump 			1 all dcd ${dumpfreq} smd.dcd
+dump 			1 all dcd 10 smd.dcd
+
+# Run the simulation.
+run 			1000
+Ewald initialization ...
+WARNING: System is not charge neutral, net charge = -1 (src/kspace.cpp:313)
+  using 12-bit tables for long-range coulomb (src/kspace.cpp:332)
+  G vector (1/distance) = 0.212473
+  estimated absolute RMS force accuracy = 0.0346028
+  estimated relative force accuracy = 0.000104205
+  KSpace vectors: actual max1d max3d = 5 3 171
+                  kxmax kymax kzmax  = 1 1 3
+All restart file global fix info was re-assigned
+Neighbor list info ...
+  update every 1 steps, delay 0 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 14
+  ghost atom cutoff = 14
+  binsize = 7, bins = 1 1 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair lj/charmm/coul/long, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton
+      stencil: half/bin/3d/newton
+      bin: standard
+WARNING: Bond/angle/dihedral extent > half of periodic box length (src/domain.cpp:906)
+Per MPI rank memory allocation (min/avg/max) = 19.16 | 19.26 | 19.36 Mbytes
+Step Temp E_pair E_mol TotEng Press Volume 
+   10063    298.96389   -1945.9338    105.52518   -1799.4155    11252.389    420.65809 
+   11063    415.89602   -1968.1037    104.52433   -1806.5528    -3133.011    408.21256 
+WARNING: Bond/angle/dihedral extent > half of periodic box length (src/domain.cpp:906)
+Loop time of 0.31409 on 4 procs for 1000 steps with 47 atoms
+
+Performance: 275.080 ns/day, 0.087 hours/ns, 3183.800 timesteps/s
+98.3% CPU use with 4 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.12088    | 0.15217    | 0.18917    |   7.4 | 48.45
+Bond    | 0.0049272  | 0.0058754  | 0.0070687  |   1.2 |  1.87
+Kspace  | 0.0049346  | 0.041583   | 0.072957   |  14.1 | 13.24
+Neigh   | 0.0039438  | 0.0039758  | 0.0040024  |   0.0 |  1.27
+Comm    | 0.083581   | 0.084453   | 0.085072   |   0.2 | 26.89
+Output  | 0.0070139  | 0.0086947  | 0.012368   |   2.3 |  2.77
+Modify  | 0.010059   | 0.013957   | 0.015842   |   1.9 |  4.44
+Other   |            | 0.00338    |            |       |  1.08
+
+Nlocal:    11.75 ave 13 max 11 min
+Histogram: 2 0 0 0 0 1 0 0 0 1
+Nghost:    4079.75 ave 4175 max 3978 min
+Histogram: 1 0 0 0 1 1 0 0 0 1
+Neighs:    7957.5 ave 10237 max 6149 min
+Histogram: 1 1 0 0 0 0 1 0 0 1
+
+Total # of neighbors = 31830
+Ave neighs/atom = 677.234
+Ave special neighs/atom = 9.61702
+Neighbor list builds = 11
+Dangerous builds = 0
+
+# Write files to save final simulation state.
+write_data 		smd.data
+Ewald initialization ...
+  using 12-bit tables for long-range coulomb (src/kspace.cpp:332)
+  G vector (1/distance) = 0.212718
+  estimated absolute RMS force accuracy = 0.0343584
+  estimated relative force accuracy = 0.000103469
+  KSpace vectors: actual max1d max3d = 5 3 171
+                  kxmax kymax kzmax  = 1 1 3
+write_restart 	smd.restart
+Ewald initialization ...
+  using 12-bit tables for long-range coulomb (src/kspace.cpp:332)
+  G vector (1/distance) = 0.212718
+  estimated absolute RMS force accuracy = 0.0343584
+  estimated relative force accuracy = 0.000103469
+  KSpace vectors: actual max1d max3d = 5 3 171
+                  kxmax kymax kzmax  = 1 1 3
+
+
+
+
+Total wall time: 0:00:00

@@ -26,7 +26,7 @@ read_data       bis_catechol_iron_complex.data 	# Read in a lammps data file.
 #### Perform Energy Minimization
 
 thermo 50 																		# Compute and print thermodynamic info (temperature, energy, and pressure) on timesteps that are a multiple of N.
-thermo_style 	custom etotal ke temp pe ebond eangle density vol fmax fnorm 	# Specify which keywords are printed on each thermodynamic step.
+thermo_style 	custom step etotal ke temp pe ebond eangle density vol fmax fnorm 	# Specify which keywords are printed on each thermodynamic step.
 
 minimize		1.0e-5 1.0e-6 100 1000 											# Perform an energy minimization of the system, by iteratively adjusting atom coordinates.
 write_restart 	minimized.restart 												# Write a binary restart file of the current state of the simulation.
