@@ -11,4 +11,5 @@
 module purge all
 module load lammps/20200303-openmpi-4.0.5-intel-19.0.5.281
 
+# Run a lammps simulation that equilibrates the system.
 mpirun -np 4 lmp -in equil.in -log equil.log
