@@ -32,13 +32,26 @@ group 			fixed_atom id 10
 # Create an atom group to be attached to the smd dummy atom.
 group 			moving_atom id 33
 
+# Create an atom group that has both the fixed and moving atom.
+group			fixed_moving id 10 33
+
 # Fix the position of the fixed atom.
 fix 			fix1 fixed_atom setforce 0.0 0.0 0.0
 
+# Define variables to store the positions of the atoms
+variable x1 equal x[10]
+variable y1 equal y[10]
+variable z1 equal z[10]
+variable x2 equal x[33]
+variable y2 equal y[33]
+variable z2 equal z[33]
+
+variable 		write_freq equal 100
+
 # Apply a harmonic constraint to the moving atom. Choose a point x, y, z that falls along the unit vector between atom id 10 and atom id 33.
-#fix 			smd moving_atom smd cvel 20 -0.0001 tether 119.5800 95.2670 27.456 0.0
-fix 			smd moving_atom smd cvel 20 -0.01 tether 119.5800 95.2670 27.456 0.0
-fix 			smd_results all ave/time 1 1 100 f_smd[*] file SMD_results
+#fix 			smd moving_atom smd cvel 20 0.0001 tether 119.5800 95.2670 27.456 0.0
+fix 			smd moving_atom smd cvel 20 -0.01 tether 116.83652500808239 112.80786883831024 10.315352082252502 0.0
+fix 			smd_results all ave/time 1 1 ${write_freq} v_x1 v_y1 v_z1 v_x2 v_y2 v_z2 f_smd[*] file SMD_results
 
 # Specify a thermodynamic ensemble and initial velocities.
 # Create an atom group without id 10
@@ -49,6 +62,7 @@ variable 		pressure equal 1
 
 # Set initial velocities for all atoms except atom with fixed force.
 velocity 		exclude_atoms create ${temperature} 543 dist gaussian loop local
+velocity 		fixed_atom zero linear
 
 # Apply an isobaric thermodynamic ensemble.
 fix 			1 all npt temp ${temperature} ${temperature} 100.0 iso ${pressure} ${pressure} 1000
@@ -59,6 +73,7 @@ timestep 		1.0
 # Output a trajectory.
 variable 		dumpfreq equal 10
 dump 			1 all dcd ${dumpfreq} smd.dcd
+dump 			2 fixed_moving dcd ${write_freq} pull_atoms.dcd
 
 thermo 50 																		# Compute and print thermodynamic info (temperature, energy, and pressure) on timesteps that are a multiple of N.
 thermo_style 	custom step etotal ke temp pe ebond eangle density vol fmax fnorm 	# Specify which keywords are printed on each thermodynamic step.

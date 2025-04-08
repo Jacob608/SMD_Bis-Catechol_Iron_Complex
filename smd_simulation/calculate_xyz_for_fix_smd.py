@@ -71,7 +71,7 @@ pos2 = u.select_atoms("index 32").positions[0]
 unit_vec = unit_vector(pos1, pos2)
 # Print the x, y, and z coordinates of the unit vector to a text file.
 with open('xyz.txt', 'w') as file:
-    file.write(f"{unit_vec[0] + pos2[0]} {unit_vec[1] + pos2[1]} {unit_vec[2] + pos2[2]}")
+    file.write(f"{pos2[0] + 10 * unit_vec[0]} {pos2[1] + 10 * unit_vec[1]} {pos2[2] + 10 * unit_vec[2]}")
 
 
 # In[ ]:
