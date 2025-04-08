@@ -1,3 +1,4 @@
+# Specify whether this simulation should be solvated or not.
 solvate=true
 
 # Run a tcl script in VMD to generate a PDB and PSF file using Visual Molecular Dynamics.
@@ -6,6 +7,7 @@ vmd -dispdev text -e make_bis_catechol_iron_crosslink_psf.tcl > make_bis_catecho
 
 # If this simulation should be solvaetd, execute the following commands.
 if $solvate; then
+	# Run the vmd compatible tcl script that adds solvent and ions.
 	vmd -dispdev text -e solvate_ionize.tcl > solvate_ionize.log
 	# Rename the output to match the rest of the simulation workflow.
 	mv ionized.pdb bis_catechol_iron_complex_noTER.pdb
