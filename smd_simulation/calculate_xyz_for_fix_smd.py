@@ -3,17 +3,10 @@
 
 # # Return x, y, and z for SMD Pull Direction
 
-# In[1]:
-
-
 # Import necessary libraries
 import MDAnalysis as mda
 import argparse
 import numpy as np
-
-
-# In[2]:
-
 
 # Read the information requested by the user.
 parser = argparse.ArgumentParser(description="Process some integers.")
@@ -28,10 +21,6 @@ args = parser.parse_args()
 idx1 = args.idx1
 idx2 = args.idx2
 f = args.f
-
-
-# In[3]:
-
 
 def unit_vector(pos1, pos2):
     """
@@ -58,10 +47,6 @@ def unit_vector(pos1, pos2):
     
     return unit_vec
 
-
-# In[4]:
-
-
 # Load the requested data file into a MDAnalysis universe.
 u = mda.Universe(f)
 # Get the positions of the two reference atoms.
@@ -73,8 +58,6 @@ unit_vec = unit_vector(pos1, pos2)
 with open('xyz.txt', 'w') as file:
     file.write(f"{pos2[0] + 10 * unit_vec[0]} {pos2[1] + 10 * unit_vec[1]} {pos2[2] + 10 * unit_vec[2]}")
 
-
-# In[ ]:
 
 
 
