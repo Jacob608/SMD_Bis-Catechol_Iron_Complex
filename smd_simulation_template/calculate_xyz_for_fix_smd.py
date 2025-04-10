@@ -50,8 +50,8 @@ def unit_vector(pos1, pos2):
 # Load the requested data file into a MDAnalysis universe.
 u = mda.Universe(f)
 # Get the positions of the two reference atoms.
-pos1 = u.select_atoms("index 9").positions[0]
-pos2 = u.select_atoms("index 32").positions[0]
+pos1 = u.select_atoms(f"index {idx1}").positions[0]
+pos2 = u.select_atoms(f"index {idx2}").positions[0]
 # Get a unit vector pointing in the direction from pos1 to pos2.
 unit_vec = unit_vector(pos1, pos2)
 # Print the x, y, and z coordinates of the unit vector to a text file.
