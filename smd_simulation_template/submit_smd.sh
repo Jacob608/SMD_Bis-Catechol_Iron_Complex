@@ -16,7 +16,7 @@ module load python/anaconda3
 source activate /home/jjg9482/anaconda3/envs/mdanalysis
 
 # Run calculate_xyz_for_fix_smd.py to get xyz.txt.
-python calculate_xyz_for_fix_smd.py -idx1 9 -idx2 32 -f 'equilibrated.data' > calculate_xyz_for_fix_smd.log
+python calculate_xyz_for_fix_smd.py -idx1 9 -idx2 32 -f 'equilibrated.data' -tether_dist 10 > calculate_xyz_for_fix_smd.log
 
 #### Copy the one line in xyz.txt into smd.in
 # Make a copy of smd_template.in as smd.in 
