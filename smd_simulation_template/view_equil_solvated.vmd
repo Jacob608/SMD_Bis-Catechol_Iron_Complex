@@ -348,8 +348,6 @@ mol color Name
 mol selection {residue 0 1 2}
 mol material Opaque
 mol addrep top
-mol showperiodic top 0 xy
-mol numperiodic top 0 1
 mol selupdate 0 top 0
 mol colupdate 0 top 0
 mol scaleminmax top 0 0.000000 0.000000
@@ -384,8 +382,6 @@ mol color Name
 mol selection {residue 0 1}
 mol material Opaque
 mol addrep top
-mol showperiodic top 1 xy
-mol numperiodic top 1 1
 mol selupdate 1 top 0
 mol colupdate 1 top 0
 mol scaleminmax top 1 0.000000 0.000000
@@ -603,28 +599,6 @@ color scale colors WBlk {1.0 1.0 1.0} {0.5 0.5 0.5} {0.0 0.0 0.0}
     {color Chain {W} gray}
     {color Segname {P1} blue}
     {color Segname {P2} red}
-    {color Segname {P3} gray}
-    {color Segname {P4} orange}
-    {color Segname {P5} yellow}
-    {color Segname {P6} tan}
-    {color Segname {P7} silver}
-    {color Segname {P8} green}
-    {color Segname {P9} white}
-    {color Segname {P10} pink}
-    {color Segname {P11} cyan}
-    {color Segname {P12} purple}
-    {color Segname {P13} lime}
-    {color Segname {P14} mauve}
-    {color Segname {P15} ochre}
-    {color Segname {P16} iceblue}
-    {color Segname {P17} black}
-    {color Segname {P18} yellow2}
-    {color Segname {P19} yellow3}
-    {color Segname {P20} green2}
-    {color Segname {P21} green3}
-    {color Segname {P22} cyan2}
-    {color Segname {P23} cyan3}
-    {color Segname {P24} blue2}
     {color Segname {I} blue3}
     {color Segname {WT1} violet}
     {color Segname {ION} violet2}
