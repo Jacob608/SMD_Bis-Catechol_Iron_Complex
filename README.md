@@ -29,7 +29,7 @@ This repository demonstrates how to create a PSF file from a PDB structure of ei
 
 # Instructions
 
-There are three steps in this procedure. The first step is building a pdb, psf, and LAMMPS data file to prepare for a LAMMPS simulation. The second step is to run an equilibration of that system. The third step is to run and analyze a steered molecular dynamics simulation using LAMMPS fix smd. Set up your software as outlined in the section Software
+There are three steps in this procedure. The first step is building a pdb, psf, and LAMMPS data file to prepare for a LAMMPS simulation. The second step is to run an equilibration of that system. The third step is to run and analyze a steered molecular dynamics simulation using LAMMPS fix smd. Set up your software as outlined in the section Software.
 
 ## Step 1: Prepare pdb, psf, and data files.
 
@@ -51,7 +51,7 @@ Run the command 'bash **make_data_file.sh**'.
 
 ## Step 3: Run a LAMMPS steered molecular dynamics simulation.
 
-1) Run either the command 'bash submit_smd.sh' or 'sbatch submi_smd.sh' if submitting to a Slurm workload managed system to run a steered molecular dynamcis simulation.
+1) Run either the command 'bash submit_smd.sh' or 'sbatch submit_smd.sh' if submitting to a Slurm workload managed system to run a steered molecular dynamics simulation.
 
 - The script **submit_smd.sh** contains commands to run a python script **calculate_xyz_for_fixsmd.py**, which takes the data file **equilibrated.data** generated at the end of the equilibration simulation and calculates the x, y, and z coordinates of the point to which the smd spring will be tethered. The script **calculate_xyz_for_fixsmd.py** sets the tether point by finding the point that is 10 Angstroms away from the pull atom, attached to the other end of the spring, in the direction of the vector pointing from the fix atom to the pull atom:
 
