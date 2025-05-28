@@ -51,7 +51,7 @@ Run the command 'bash **make_data_file.sh**'.
 
 ## Step 3: Run a LAMMPS steered molecular dynamics simulation.
 
-1) Run either the command 'bash submit_smd.sh' or 'sbatch submit_smd.sh' if submitting to a Slurm workload managed system to run a steered molecular dynamics simulation.
+1) In submit_smd.sh modify the source activate line to point to an appropriate conda environment. Run either the command 'bash submit_smd.sh' or 'sbatch submit_smd.sh' if submitting to a Slurm workload managed system to run a steered molecular dynamics simulation.
 
 - The script **submit_smd.sh** contains commands to run a python script **calculate_xyz_for_fixsmd.py**, which takes the data file **equilibrated.data** generated at the end of the equilibration simulation and calculates the x, y, and z coordinates of the point to which the smd spring will be tethered. The script **calculate_xyz_for_fixsmd.py** sets the tether point by finding the point that is 10 Angstroms away from the pull atom, attached to the other end of the spring, in the direction of the vector pointing from the fix atom to the pull atom:
 

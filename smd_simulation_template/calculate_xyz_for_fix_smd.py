@@ -17,7 +17,7 @@ parser.add_argument('-idx2', type=int, help='Second index')
 # f is the name of the data file from which the positions of id1 and id2 will be extracted.
 parser.add_argument('-f', type=str, help='LAMMPS data file name.')
 # tether_dist is the initial distance between the pull atom and the other end of the smd spring.
-parser.add_argument('-tether_dist', type=str, help='Distance between pull atom and other end of smd spring.')
+parser.add_argument('-tether_dist', type=float, help='Distance between pull atom and other end of smd spring.')
 
 args = parser.parse_args()
 idx1 = args.idx1
