@@ -6,12 +6,12 @@ resetpsf
 topology charmm2lammps_all36_tip3/top_all36_prot_C2L_updated_charges.rtf
 
 # Add the first divalent dopa.
-segment P1 { pdb DO2E_1.pdb }
+segment P1 { pdb DO2E_1.pdb;  first CNEU; last NNEU  }
 coordpdb DO2E_1.pdb P1
 guesscoord
 
 # Add the second divalent dopa.
-segment P2 { pdb DO2E_2.pdb }
+segment P2 { pdb DO2E_2.pdb;  first CNEU; last NNEU  }
 coordpdb DO2E_2.pdb P2
 guesscoord
 
