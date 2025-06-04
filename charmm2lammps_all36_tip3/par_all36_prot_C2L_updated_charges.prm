@@ -94,7 +94,7 @@ MASS  88  SOD       22.98977 ! Sodium Ion - added by Jacob Graham 11/20/2024 fro
 MASS  89  FE3P      55.84500 ! Trivalent Iron Ion - added by Jacob Graham 11/21/2024 from toppar_ions_won.str from Won, Y., "Force Field for Monovalent, Divalent, and Trivalent Cations Developed under the Solvent Boundary Potential," Journal of Physical Chemistry A., 116: 11763-11767, 2012. Fe3p was capitalized to FE3P due to automatic capitalization by VMD psfgen plugin and case sensitivity of charmm2lammps.pl tool. 
 MASS  90  CG2R67    12.01100 ! 6-mem aromatic carbon of biphenyl - added by Jacob Grhaam 11/25/2024 from par_all36_cgenff.prm CHARMM36 July 2024 update
 MASS  91  OG312     15.99940 ! ionized alcohol oxygen - added by Jacob Graham 11/25/2024 from par_all36_cgenff.prm CHARMM36 July 2024 update
-
+MASS  92  CAL       40.08000 ! Calcium Ion - added by Gwen Liu 6/4/2025 from toppar_water_ions_tip5p.str CHARMM36 July 2024 update
 
 BONDS
 !
@@ -3412,6 +3412,10 @@ CLA      0.0       -0.150      2.27     ! Chloride
 SOD      0.0       -0.0469    1.41075  ! new CHARMM Sodium 
                    ! ddG of -18.6 kcal/mol with K+ from S. Noskov
 ! Sodium Ion entry end - added by Jacob Graham 11/20/2024 from toppar_water_ions.str CHARMM36 July 2024 update
+! Calcium Ion entry start - added by Gwen Liu 6/4/2025 from toppar_water_ions_tip5p.str CHARMM36 July 2024 update
+CAL      0.0       -0.120      1.367    ! Calcium
+                   ! S. Marchand and B. Roux, dA = -384.8 kcal/mol
+! Calcium Ion entry end - added by Gwen Liu 6/4/2025 from toppar_water_ions_tip5p.str CHARMM36 July 2024 update                  
 
 !carbons
 C      0.000000  -0.110000     2.000000 ! ALLOW   PEP POL ARO
