@@ -87,8 +87,8 @@ MASS  86  OT	    15.99940 ! tip3p oxygen - added by Jacob Graham 11/20/2024 from
 MASS  87  CLA 	    35.45000 ! Chloride Ion - added by Jacob Graham 11/20/2024 from toppar_water_ions.str CHARMM36 July 2024 update
 MASS  88  SOD       22.98977 ! Sodium Ion - added by Jacob Graham 11/20/2024 from toppar_water_ions.str CHARMM36 July 2024 update
 MASS  89  FE3P      55.84500 ! Trivalent Iron Ion - added by Jacob Graham 11/21/2024 from toppar_ions_won.str from Won, Y., "Force Field for Monovalent, Divalent, and Trivalent Cations Developed under the Solvent Boundary Potential," Journal of Physical Chemistry A., 116: 11763-11767, 2012. Fe3p was capitalized to FE3P due to automatic capitalization by VMD psfgen plugin and case sensitivity of charmm2lammps.pl tool. 
-MASS  90  CG2R67    12.01100 C ! 6-mem aromatic carbon of biphenyl - added by Jacob Graham 11/25/2024 from top_all36_cgenff.rtf CHARMM36 July 2024 update
-MASS  91  OG312     15.99940 O ! ionized alcohol oxygen - added by Jacob Graham 11/25/2024 from top_all36_cgenff.rtf CHARMM36 July 2024 update
+MASS  90  CG2R67    12.01100 ! 6-mem aromatic carbon of biphenyl - added by Jacob Graham 11/25/2024 from top_all36_cgenff.rtf CHARMM36 July 2024 update
+MASS  91  OG312     15.99940 ! ionized alcohol oxygen - added by Jacob Graham 11/25/2024 from top_all36_cgenff.rtf CHARMM36 July 2024 update
 
 DECL -CA  
 DECL -C  
@@ -1487,40 +1487,36 @@ ic hr1 hr2 *cr hr3  0.0 0.0  240.0  0.0 0.0
 ic ha  ca  nl  hl   0.0 0.0  240.0  0.0 0.0
 patch first none last none
 
-! DOPA Dianion Crosslink Patch begin entry - added by Jacob Graham 12/3/2024
+! DOPA Dianion Crosslink Patch begin entry - added by Jacob Graham 12/3/2024 - charges fixed by Faramarz Joodaki 5/30/2025
 PRES D2EX         -4.000 ! patch to crosslink DOPA Dianion. Charges after crosslinking are estimated by CGenFF
-GROUP                    !                            				  
-ATOM 1CB   CT2    -0.182 ! charge updated based on CGenFF output.          1HD1  1OE1                    2OE1   2HD1       
-ATOM 1HB1  HA2     0.09  !                                                  |     |                        |     |      
-ATOM 1HB2  HA2     0.09  !                                            1HB1 1CD1--1CE1                   2CE1--2CD1   2HB1  
-ATOM 1CG   CA     -0.001 ! charge updated based on CGenFF output.     |    //      \\                   //      \\    |  
-ATOM 1CD1  CA     -0.602 ! charge updated based on CGenFF output.    -1CB--1CG     1CZ--1OZ       2OZ--2CZ       2CG--2CB-
-ATOM 1HD1  HP      0.280 ! charge updated based on CGenFF output.     |    \   __  /                    \   __   /    |                
-ATOM 1CE1  CA      0.092 ! charge updated based on CGenFF output.     1HB2 1CD2--1CE2-------------------2CE2--2CD2    2HB2  
-!ATOM 1HE1  HP      0.42  ! charge updated based on CGenFF output.           |                                   |         
-ATOM 1CZ   CA      0.104 ! charge updated based on CGenFF output.          1HD2                                 2HD2        
-ATOM 1OZ   OG312  -0.763 ! charge updated based on CGenFF output. -0.003 added to bring net charge of patch to an integer.
-!ATOM 1HZ   H       0.42  ! charge updated based on CGenFF output.
-ATOM 1CD2  CA     -0.122 ! charge updated based on CGenFF output.
-ATOM 1HD2  HP      0.115
-ATOM 1CE2  CG2R67 -0.34  ! charge updated based on CGenFF output.
-ATOM 1OE1  OG312  -0.761 ! charge updated based on CGenFF output.
-GROUP      
-ATOM 2CB   CT2    -0.182 ! charge updated based on CGenFF output.
-ATOM 2HB1  HA2     0.09  !                                 
-ATOM 2HB2  HA2     0.09  !                                             
-ATOM 2CG   CA     -0.001 ! charge updated based on CGenFF output.
-ATOM 2CD1  CA     -0.602 ! charge updated based on CGenFF output.
-ATOM 2HD1  HP      0.280 ! charge updated based on CGenFF output.                                                        
-ATOM 2CE1  CA      0.092 ! charge updated based on CGenFF output.    
-!ATOM 2HE1  HP      0.42  ! charge updated based on CGenFF output.                                       
-ATOM 2CZ   CA      0.104 ! charge updated based on CGenFF output.     
-ATOM 2OZ   OG312  -0.763 ! charge updated based on CGenFF output. -0.003 added to bring net charge of patch to an integer. 
-!ATOM 2HZ   H       0.42  ! charge updated based on CGenFF output.
-ATOM 2CD2  CA     -0.122 ! charge updated based on CGenFF output.
-ATOM 2HD2  HP      0.115
-ATOM 2CE2  CG2R67 -0.34  ! charge updated based on CGenFF output.
-ATOM 2OE1  OG312  -0.761 ! charge updated based on CGenFF output.
+GROUP                    !
+ATOM 1CB   CT2    -0.207539 ! charge updated. FJ QC-RESP.             1HD1  1OE1                    2OE1   2HD1
+ATOM 1HB1  HA2    -0.081095 ! charge updated. FJ QC-RESP.              |     |                        |     |
+ATOM 1HB2  HA2    -0.081095 ! charge updated. FJ QC-RESP.        1HB1 1CD1--1CE1                   2CE1--2CD1   2HB1
+ATOM 1CG   CA     -0.030128 ! charge updated. FJ QC-RESP.        |    //      \\                   //      \\    |
+ATOM 1CD1  CA     -0.469093 ! charge updated. FJ QC-RESP.       -1CB--1CG     1CZ--1OZ       2OZ--2CZ       2CG--2CB-
+ATOM 1HD1  HP      0.035443 ! charge updated. FJ QC-RESP.        |    \   __  /                    \   __   /    |
+ATOM 1CE1  CA      0.328642 ! charge updated. FJ QC-RESP.        1HB2 1CD2--1CE2-------------------2CE2--2CD2    2HB2
+ATOM 1CZ   CA      0.271415 ! charge updated. FJ QC-RESP.               |                                  |
+ATOM 1OZ   OG312  -0.689870 ! charge updated. FJ QC-RESP.             1HD2                               2HD2
+ATOM 1CD2  CA     -0.308640 ! charge updated. FJ QC-RESP.
+ATOM 1HD2  HP      0.185637 ! charge updated. FJ QC-RESP.
+ATOM 1CE2  CG2R67 -0.138289 ! charge updated. FJ QC-RESP.
+ATOM 1OE1  OG312  -0.815388 ! charge updated. FJ QC-RESP.
+GROUP
+ATOM 2CB   CT2    -0.207539 ! charge updated. FJ QC-RESP.
+ATOM 2HB1  HA2    -0.081095 ! charge updated. FJ QC-RESP.
+ATOM 2HB2  HA2    -0.081095 ! charge updated. FJ QC-RESP.
+ATOM 2CG   CA     -0.030128 ! charge updated. FJ QC-RESP.
+ATOM 2CD1  CA     -0.469093 ! charge updated. FJ QC-RESP.
+ATOM 2HD1  HP      0.035443 ! charge updated. FJ QC-RESP.
+ATOM 2CE1  CA      0.328642 ! charge updated. FJ QC-RESP.
+ATOM 2CZ   CA      0.271415 ! charge updated. FJ QC-RESP.
+ATOM 2OZ   OG312  -0.689870 ! charge updated. FJ QC-RESP.
+ATOM 2CD2  CA     -0.308640 ! charge updated. FJ QC-RESP.
+ATOM 2HD2  HP      0.185637 ! charge updated. FJ QC-RESP.
+ATOM 2CE2  CG2R67 -0.138289 ! charge updated. FJ QC-RESP.
+ATOM 2OE1  OG312  -0.815388 ! charge updated. FJ QC-RESP.
 BOND 1CE2 2CE2
 !BOND 1CG  1CB   1CD2 1CG   1CE1 1CD1   
 !BOND 1CZ  1CE2  1OZ  1CZ    
