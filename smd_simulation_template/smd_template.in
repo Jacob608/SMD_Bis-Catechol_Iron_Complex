@@ -25,17 +25,17 @@ read_restart       equilibrated.restart 	# Read in a lammps restart file.
 
 #### Perform Steered Molecular Dynamics Simulation
 
-group 			fixed_atom id 10 					 # Create an atom group to be fixed through the simulation.
-group 			moving_atom id 33 					 # Create an atom group to be attached to the smd dummy atom.
+group 			fixed_atom id 9 					 # Create an atom group to be fixed through the simulation.
+group 			moving_atom id 32 					 # Create an atom group to be attached to the smd dummy atom.
 fix 			fix1 fixed_atom setforce 0.0 0.0 0.0 # Fix the position of the fixed atom.
 
 # Define variables to store the positions of the atoms
-variable x1 equal x[10]
-variable y1 equal y[10]
-variable z1 equal z[10]
-variable x2 equal x[33]
-variable y2 equal y[33]
-variable z2 equal z[33]
+variable x1 equal x[9]
+variable y1 equal y[9]
+variable z1 equal z[9]
+variable x2 equal x[32]
+variable y2 equal y[32]
+variable z2 equal z[32]
 
 variable 		write_freq equal 100
 
@@ -44,7 +44,8 @@ fix 			smd moving_atom smd cvel 20 -0.01 tether <x y z> 0.0
 fix 			smd_results all ave/time 1 1 ${write_freq} v_x1 v_y1 v_z1 v_x2 v_y2 v_z2 f_smd[*] file SMD_results
 
 # Specify a thermodynamic ensemble and initial velocities.
-# Create an atom group without id 10
+# Create an atom group without atoms in fixed_atom
+
 group 			exclude_atoms subtract all fixed_atom 
 
 variable 		temperature equal 300
@@ -52,7 +53,7 @@ variable 		pressure equal 1
 
 # Set initial velocities for all atoms except atom with fixed force.
 velocity 		exclude_atoms create ${temperature} 543 dist gaussian loop local
-velocity 		fixed_atom zero linear
+velocity 		fixed_atom set 0 0 0
 
 # Apply an isobaric thermodynamic ensemble.
 fix 			1 all npt temp ${temperature} ${temperature} 100.0 iso ${pressure} ${pressure} 1000
