@@ -95,6 +95,7 @@ MASS  89  FE3P      55.84500 ! Trivalent Iron Ion - added by Jacob Graham 11/21/
 MASS  90  CG2R67    12.01100 ! 6-mem aromatic carbon of biphenyl - added by Jacob Grhaam 11/25/2024 from par_all36_cgenff.prm CHARMM36 July 2024 update
 MASS  91  OG312     15.99940 ! ionized alcohol oxygen - added by Jacob Graham 11/25/2024 from par_all36_cgenff.prm CHARMM36 July 2024 update
 MASS  92  CAL       40.08000 ! Calcium Ion - added by Gwen Liu 6/4/2025 from toppar_water_ions_tip5p.str CHARMM36 July 2024 update
+MASS  93  ZN        65.37000 ! zinc (II) cation - added by Gwen Liu 6/11/2025 from toppar_water_ions_tip5p.str CHARMM36 July 2024 update
 
 BONDS
 !
@@ -3416,6 +3417,12 @@ SOD      0.0       -0.0469    1.41075  ! new CHARMM Sodium
 CAL      0.0       -0.120      1.367    ! Calcium
                    ! S. Marchand and B. Roux, dA = -384.8 kcal/mol
 ! Calcium Ion entry end - added by Gwen Liu 6/4/2025 from toppar_water_ions_tip5p.str CHARMM36 July 2024 update                  
+! Zinc Ion entry start - added by Gwen Liu 6/11/2025 from toppar_water_ions_tip5p.str CHARMM36 July 2024 update
+ZN     0.000000  -0.250000     1.090000 ! Zinc
+                   ! RHS March 18, 1990
+! Zinc Ion entry end - added by Gwen Liu 6/11/2025 from toppar_water_ions_tip5p.str CHARMM36 July 2024 update                  
+
+
 
 !carbons
 C      0.000000  -0.110000     2.000000 ! ALLOW   PEP POL ARO
