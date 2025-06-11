@@ -15,7 +15,7 @@ if $solvate; then
 fi
 
 # Run a bash script to create a LAMMPS data file from the PSF.
-bash run_c2l.sh > run_c2l.log
+bash run_c2l_covalent.sh > run_c2l_covalent.log
 
 # Organize log and output files into a simulation directory.
 cp -r smd_simulation_template smd_simulation
